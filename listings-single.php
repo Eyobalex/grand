@@ -147,7 +147,7 @@
          
           <section1>
             
-          <div id="ratnav" style="z-index: 1; " class="signup">
+          <div id="ratnav" style="z-index: 100; " class="signup">
               <div  class="d-block d-md-flex listing vertical">
                 <div  style="margin-left: 15px; background-color: white;">
                   
@@ -261,7 +261,7 @@
                   
                    
           
-                  <div  class="col-lg-12" style="z-index: -1;" >
+                  <div  class="col-lg-12" >
                     <div  class="d-block d-md-flex listing vertical">
                     <div class="slide-one-item home-slider owl-carousel">
                       <div><img style="height: 400px;" src="images/5867.jpg" alt="Image" class="img-fluid rounded"></div>

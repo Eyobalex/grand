@@ -21,6 +21,15 @@ if (isset($_POST['edit'])){
     }
 }
 
+if (isset($_POST['add-phone'])){
+    $pn = new PhoneNumber(['number' => $_POST['number'], 'company_id' => $listing->id]);
+
+    if ($pn->save()){
+        $session->message("you have successfully added a new phone number.", "success");
+        redirect_to("detailed_listing.php?id=".$listing->id);
+    }
+}
+
 ?>
 <?php require_once "header.php"?>
 <div class="overlay"  style="background-image: url(images/listingp.jpeg);" data-aos="fade" >
@@ -150,7 +159,28 @@ if (isset($_POST['edit'])){
             <tr>
                 <th scope="row">Phone Numbers</th>
                 <td>
+
                     <table class="table table-borderless col-md-10">
+                        <tr>
+                            <th>Actions</th>
+                            <td>
+                                <a title="Edit this number"
+                                   class="danger"
+                                   data-toggle="popover"
+                                   data-content="
+                                   <form action='detailed_listing.php?id=<?=$listing->id?>' method='post'>
+                                        <div class='row m-3 '>
+                                            <input type='text' value='' name='number' class='form-control col-md-7' />
+                                            <div class='col-md-1'></div>
+                                            <input type='submit' name='add-phone' class='btn btn-primary col-md-3' value='Add'/>
+                                      </div>
+                                   </form>"  >
+                                    <span class="fa fa-plus " style="color: #ff5261">Add Phone Number </span>
+                                </a>
+                            </td>
+                        </tr>
+
+
                         <tbody>
                         <?php
                             if (!empty($listing->phoneNumbers())){

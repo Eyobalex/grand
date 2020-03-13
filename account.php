@@ -25,51 +25,54 @@ if (isset($_POST['update-password'])){
 
 }
 //update profile
-if (isset($_POST['update-profile'])){
-    if (isset($_FILES['profilePicture'])){
-        if ($profile_pic){
-            if($profile_pic->destroy()){
-                $profile_pic->delete();
-            }
-        }
+if (isset($_POST['update-profile'])) {
+    if (!isset($_FILES['profilePicture']) || $_FILES['profilePicture']['error'] != 0) {
+        $args = $_POST['user'];
+        $result = $user->patch_update($args);
 
-        $pic  = new Photo();
-        $pic->posted_by = $user->id;
-        $pic->company_id = 0;
-        $pic->product_id = 0;
-        $pic->posted_for = 'profile_pic';
-        $_FILES['profilePicture']['name'] = proImgName($user->user_mail, $_FILES['profilePicture']['name']);
-        $pic->attach_files( $_FILES['profilePicture']);
-
-        if ($pic->save()){
-
-            $args = $_POST['user'];
-            $result = $user->patch_update($args);
-
-            if ($result !== false){
-                $session->message("You have successfully updated your account.<pp>", "success");
-                redirect_to("account.php");
-            }else{
-                $session->message("You haven't successfully updated your account. Try again.", "error");
-                redirect_to("account.php");
-            }
-
-        }else{
-            $session->message("Something went wrong while trying to save your profile picture. Try again", "error");
+        if ( $result !== false ) {
+            $session->message("You have successfully updated your account." , "success");
+            redirect_to("account.php");
+        } else {
+            $session->message("You haven't successfully updated your account. Try again." , "error");
             redirect_to("account.php");
         }
-
     }
-    $args = $_POST['user'];
-    $result = $user->patch_update($args);
 
-    if ($result !== false){
-        $session->message("You have successfully updated your account.", "success");
-        redirect_to("account.php");
+    $pic  = new Photo();
+    $pic->posted_by = $user->id;
+    $pic->company_id = 0;
+    $pic->product_id = 0;
+    $pic->posted_for = 'profile_pic';
+    $_FILES['profilePicture']['name'] = proImgName($user->user_mail, $_FILES['profilePicture']['name']);
+    $pic->attach_files( $_FILES['profilePicture']);
+
+    echo "<pre>";
+    print_r($_FILES['profilePicture']);
+    print_r($pic);
+    echo "</pre>";
+
+    if ($profile_pic){
+        if($profile_pic->destroy()){
+            $profile_pic->delete();
+        }
+    }
+    if ($pic->save()){
+        $args = $_POST['user'];
+        $result = $user->patch_update($args);
+
+        if ($result !== false){
+            $session->message("You have successfully updated your account.", "success");
+            redirect_to("account.php");
+        }else{
+            $session->message("You haven't successfully updated your account. Try again.", "error");
+            redirect_to("account.php");
+        }
     }else{
-        $session->message("You haven't successfully updated your account. Try again.", "error");
+        $session->message("Something went wrong while trying to save your profile picture. Try again <br>" . (!empty($pic->errors)) ? implode("<br>", $pic->errors) : '', "error");
         redirect_to("account.php");
     }
+
 
 }
 

@@ -137,7 +137,7 @@
 
                     <div style="margin-right: 80px;" class="row justify-content-center mb-4">
                         <div id="tend" class="col-lg-12 text-center">
-                            <a class="fa fa-gavel"  href="#"> Tenders</a>
+                            <a class="fa fa-gavel"  href="tender.php"> Tenders</a>
                             <a class="fa fa-bars"  href="listings.php">  Business Listing</a>
                         </div>
                     </div>
